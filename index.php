@@ -40,16 +40,31 @@
             justify-content: center;
             align-items: center;
         }
+        h1{
+            text-align: center;
+        }
+        .base-url
+        {
+            text-align: center;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
     
+    <h1>Récupérer les infos d'une ville à partir de l'api :<br><a href="https://api.gouv.fr/api/api-geo.html">https://api.gouv.fr/api/api-geo.html</a></h1>
     
+
+    <p class="base-url">URL de base :<br>https://geo.api.gouv.fr/communes/?nom=VILLE</p>
+
     <div class="butons">
 
-        <input type="text" name="ville" placeholder="Nom de ville">
+        <form action="https://geo.api.gouv.fr/communes/" method="GET">
 
-        <button>Envoyer</button>
+            <input type="text" name="nom" class="form-city" placeholder="Nom de ville">
+
+            <button>Envoyer</button>
+        </form>
 
     </div>
 

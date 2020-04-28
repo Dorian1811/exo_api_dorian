@@ -7,17 +7,28 @@ function removeOverlay(){
 }
 
 
-
-$('form').submit(function()
+$('form').submit(function(e)
 {
     e.preventDefault();
 
-    $.ajax({
+    $('form').find('.error').remove();
+
+    let ville = $('.form-city').val();
+
+    if(ville.length < 1){
+
+        $('.tab').html('<p class="error" style="color:red">Le champ doit contenir au moins 1 caractères</p>');
+
+    }else {
+            
+        $.ajax({
         type:'GET',
-        url: 'https://geo.api.gouv.fr/communes/?nom=lille',
+        url: 'https://geo.api.gouv.fr/communes/',
         dataType: 'json',
+        data : $(this).serialize(),
         success: function(data){
-            let communes = $(`
+
+            let cityTable = $(`
             <table>
                 <thead>
                     <tr>
@@ -31,48 +42,54 @@ $('form').submit(function()
                 </tbody>
             </table>
             `);
-    
-            data.forEach(function(commune){
-    
-            let newCommune = $('<tr></tr>');
-    
-            let communeNom = $('<td></td>');
-            communeNom.text(commune.nom);
-    
-            let communeCodePostaux = $('<td></td>');
-            communeCodePostaux.text(communs.codepostaux);
-    
-            let communePopulation = $('<td></td>');
-            communePopulation.text(commune.population);
-    
-            let communeDepartement = $('<td></td>');
-            communeDepartement.text(commune.departement);
-    
-            newCommune.append(communeNom);
-            newCommune.append(communeCodePostaux);
-            newCommune.append(communePopulation);
-            newCommune.append(communeDepartement);
+
             
-            communes.find('tbody').append(newCommunes);
-    
-            }); 
+            data.forEach(function(city){
             
-            $('.tab').html(communes);
-        },
-        error: function(){
-            $('form').prepend('<p class="error" style="color:red">Problème de connexion</p>');
-        },
-        beforeSend: function(){
+            let newCity = $('<tr></tr>');
+            
+            let cityNom = $('<td></td>');
+            cityNom.text(city.nom);
+            
+            let cityCodePostaux = $('<td></td>');
+            cityCodePostaux.text(city.codepostaux);
+            
+            let cityPopulation = $('<td></td>');
+            cityPopulation.text(city.population);
+            
+            let cityDepartement = $('<td></td>');
+            cityDepartement.text(city.departement);
+            
+            newCity.append(cityNom);
+            newCity.append(cityCodePostaux);
+            newCity.append(cityPopulation);
+            newCity.append(cityDepartement);
+                    
+            cityTable.find('tbody').append(newCity);
+            
+            });
+             
+                $('.tab').html(cityTable);
+                
+            },
+            error: function(){
+                $('form').prepend('<p class="error" style="color:red">Problème de connexion</p>');
+            },
+            beforeSend: function(){
 
-            setOverlay();
+                setOverlay();
 
-        },
-        complete: function(){
+            },
+            complete: function(){
 
-            removeOverlay();
+                removeOverlay();
 
-        }
-    });
+            }
+
+        });  
+        
+    }
+    
 });
 
 
