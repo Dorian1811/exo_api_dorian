@@ -12,6 +12,7 @@ $('form').submit(function(e)
     e.preventDefault();
 
     $('form').find('.error').remove();
+    $('form').find(' .results').remove();
 
     let ville = $('.form-city').val();
 
@@ -43,7 +44,7 @@ $('form').submit(function(e)
             </table>
             `);
 
-            
+            //console.log(data);
             data.forEach(function(city){
             
             let newCity = $('<tr></tr>');
@@ -52,25 +53,28 @@ $('form').submit(function(e)
             cityNom.text(city.nom);
             
             let cityCodePostaux = $('<td></td>');
-            cityCodePostaux.text(city.codepostaux);
+            cityCodePostaux.html(city.codesPostaux.join('<br>'));
             
             let cityPopulation = $('<td></td>');
             cityPopulation.text(city.population);
             
-            let cityDepartement = $('<td></td>');
-            cityDepartement.text(city.departement);
+            let cityCodeDepartement = $('<td></td>');
+            cityCodeDepartement.text(city.codeDepartement);
             
             newCity.append(cityNom);
             newCity.append(cityCodePostaux);
             newCity.append(cityPopulation);
-            newCity.append(cityDepartement);
+            newCity.append(cityCodeDepartement);
                     
             cityTable.find('tbody').append(newCity);
             
             });
-             
+
                 $('.tab').html(cityTable);
                 
+                $('form').append('<p class="results" style="color:green">Résultats : ' + data.length +'</p>');
+
+             
             },
             error: function(){
                 $('form').prepend('<p class="error" style="color:red">Problème de connexion</p>');

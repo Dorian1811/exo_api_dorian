@@ -64,6 +64,7 @@
             <input type="text" name="nom" class="form-city" placeholder="Nom de ville">
 
             <button>Envoyer</button>
+
         </form>
 
     </div>
